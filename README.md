@@ -1,4 +1,4 @@
-# SRFI nnn: Title
+# SRFI nnn: Emacs command set
 
 by Firstname Lastname, Another Person, Third Person
 
@@ -8,54 +8,112 @@ Early Draft
 
 # Abstract
 
-??? abstract, preferably shorter than 200 words. Please outline the
-need for, and design of, the proposal.
+TODO
 
 # Issues
 
-??? Optional section that may point out things to be resolved. This
-will not appear in the final SRFI.
+* Find out the history of which people designed the command set and
+when.
 
 # Rationale
 
-??? detailed rationale. This should be 200-500 words long. Please
-explain why the proposal should be incorporated as a standard feature
-in Scheme implementations. List related standards and SRFIs, including
-dependencies, conflicts, and replacements. If there are other
-standards which this proposal will replace or with which it will
-compete, please explain why the present proposal is a substantial
-improvement.
+GNU Emacs is an extremely popular text editor among Lisp and Scheme
+programmers. Its extension language, Emacs Lisp, offers a command
+set for text editing that eventually learned by most power users of
+Emacs. This command set translates easily to other Lisp dialects,
+including Scheme, provided that a text buffer datatype is supplied.
 
-## Survey of prior art
-
-GitHub's version of Markdown can make tables. For example:
-
-| System        | Procedure | Signature                 |
-| ------------- |:---------:| ------------------------- |
-| System A      | `jumble`  | _list_ _elem_             |
-| System B      | `bungle`  | _elem_ _list_             |
-| System C      | `frob`    | _list_ _elem_ _predicate_ |
+Emacs gives a name to each buffer, and all the buffers live together
+in one global namespace. This SRFI does not supply such a namespace,
+and hence does not deal with buffer names either.
 
 # Specification
 
-??? detailed specification. This should be detailed enough that a
-conforming implementation could be completely created from this
-description.
+## Parameters
+
+Parameter (current-buffer [buffer]) -> buffer
+
+Parameter (case-fold-search [boolean]) -> boolean
+
+## Buffer management
+
+(buffer? object) -> boolean
+
+(make-buffer) -> buffer
+
+Syntax (with-current-buffer buffer body ...)
+
+Syntax (with-temp-buffer body ...)
+
+## Buffer positions
+
+(point-min) -> integer
+
+(point-max) -> integer
+
+(point) -> integer
+
+(mark) -> integer
+
+(set-mark! integer)
+
+## Narrowing
+
+(narrow-to-region start end)
+
+(widen)
+
+## Saving buffer settings
+
+Syntax (save-excursion body ...)
+
+Syntax (save-restriction body ...)
+
+## Text editing
+
+(buffer-string) -> string
+
+(buffer-substring start end) -> string
+
+(insert . args)
+
+## Substring search
+
+(search-forward string [bound no-error? count]) -> integer
+
+(search-backward string [bound no-error? count]) -> integer
+
+## Regular expression search
+
+(re-search-forward regexp [bound no-error? count]) -> integer
+
+(re-search-backward regexp [bound no-error? count]) -> integer
+
+(looking-at regexp) -> boolean
+
+## Search match data
+
+(match-data) -> list
+
+This is not a parameter to avoid incompatibility with the Emacs Lisp
+API where `match-data` takes optional arguments unrelated to setting
+the match data.
+
+(set-match-data! list)
+
+(match-beginning integer) -> integer or #f
+
+(match-end integer) -> integer or #f
+
+(match-string integer) -> string
 
 # Implementation
 
-??? explanation of how it meets the sample implementation requirement
-(see process), and the code, if possible, or a link to it Source for
-the sample implementation.
-
 # Acknowledgements
 
-??? Give credits where credits is due.
+TODO: Thank the people who designed the command set.
 
 # References
-
-??? Optional section with links to web pages, books and papers that
-helped design the SRFI.
 
 # Copyright
 
