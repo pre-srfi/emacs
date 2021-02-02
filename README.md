@@ -190,31 +190,45 @@ GNU Emacs can transcode text from one character encoding to another
 (it calls them _coding systems_), convert between different newline
 encodings, and also deal with raw binary data.
 
-## String library
+## Review of the Emacs Lisp string library
 
-Emacs Lisp uses `concat` to concatenate strings. Scheme already has
-`string-append` for this purpose.
+Emacs Lisp uses `concat` to concatenate strings. RnRS `string-append`
+is equivalent, except that `concat` takes character objects in
+addition to strings.
 
-Emacs Lisp has a `format` that uses C-style `%` directives. Many SRFIs
-and Scheme libraries provide formatting so this one does not.
-
-Emacs Lisp `substring` is identical to Scheme.
+Emacs Lisp `substring` is identical to RnRS.
 
 Emacs Lisp `string-join` is a compatible subset of SRFI 13.
 
-Emacs Lisp `string-trim` and `string-trim-left` and
-`string-trim-right`.
+Emacs Lisp `string-trim-right` is roughly equivalent to SRFI 13.
 
-Emacs Lisp `string-remove-prefix` and `string-remove-suffix`.
+Emacs Lisp `string-trim-left` and `string-trim` are roughly equivalent
+to SRFI 13 `string-trim` and `string-trim-both`.
 
-Emacs Lisp `string-blank-p`. `string-empty-p` is equivalent to
-`string-null` in SRFI 13.
+Emacs Lisp `string-prefix-p` combines SRFI 13 `string-prefix?` and
+`string-prefix-ci?`.
 
-`number-to-string` is `number->string` in Scheme.
+Emacs Lisp `string-suffix-p` combines SRFI 13 `string-suffix?` and
+`string-suffix-ci?`.
 
-`string-to-list` and `string-to-vector`
+Emacs Lisp `string-remove-prefix` and `string-remove-suffix` can be
+synthesized easily from SRFI 13 procedures.
 
-`replace-regexp-in-string` has an equivalent in SRFI 115
+Emacs Lisp `string-empty-p` is equivalent to SRFI 13 `string-null?`.
+
+Emacs Lisp `string-blank-p` is equivalent to SRFI 13 `(string-every
+char-whitespace? s)`.
+
+Emacs Lisp `number-to-string` is equivalent to RnRS `number->string`.
+
+Emacs Lisp `string-to-list` and `string-to-vector` are equivalent to
+RnRS `string->list` and `string->vector`.
+
+Emacs Lisp `replace-regexp-in-string` is roughly equivalent to SRFI
+115 `regexp-replace-all`.
+
+Emacs Lisp has a `format` that uses C-style `%` directives. Many SRFIs
+and Scheme libraries provide formatting so this one does not.
 
 # Specification
 
