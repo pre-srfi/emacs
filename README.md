@@ -438,7 +438,9 @@ the match data.
 
 # Implementation
 
-Implementation using Gauche's `text.gap-buffer` library is attached.
+Implementation using Gauche's [`text.gap-buffer`
+library](https://practical-scheme.net/gauche/man/gauche-refe/Gap-buffer.html)
+is attached.
 
 # Acknowledgements
 
