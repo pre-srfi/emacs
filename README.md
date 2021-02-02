@@ -210,6 +210,8 @@ Emacs Lisp `string-blank-p`. `string-empty-p` is equivalent to
 
 `string-to-list` and `string-to-vector`
 
+`replace-regexp-in-string` has an equivalent in SRFI 115
+
 # Specification
 
 ## Buffer management
@@ -417,6 +419,8 @@ the match data.
 (match-end integer) -> integer or #f
 
 (match-string integer) -> string
+
+(replace-match _new-string_ _fixed-case?_ _literal?_)
 
 ## Substring search
 
