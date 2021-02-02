@@ -24,10 +24,6 @@ users of Emacs. This command set translates easily to other Lisp
 dialects, including Scheme, provided that a datatype is supplied for a
 text buffer that can grow and shrink.
 
-Emacs gives a name to each buffer, and all the buffers live together
-in one global namespace. This SRFI does not supply such a namespace,
-and hence does not deal with buffer names either.
-
 ## Buffer names
 
 GNU Emacs endows each buffer with a name. That name is displayed to
@@ -43,10 +39,9 @@ This implies that `get-buffer`, `get-buffer-create`,
 
 ## Zero-based vs one-based indexing
 
-Emacs buffer positiong indexing is 1-based, not 0-based. This is
-inconsistent with string, vector, and list indexing, which is 0-based
-in Emacs Lisp just like in Scheme and other Lisp dialects. Emacs
-buffers' column numbers are also 0-based at the Emacs Lisp API level.
+Emacs buffer positions are 1-based, not 0-based. This is inconsistent
+with string, vector, and list indexes, which are 0-based in Emacs Lisp
+just as they are in Scheme and other Lisp dialects.
 
 For consistency with the rest of Scheme, this SRFI deviated from Emacs
 indexing and uses 0-based indexes for buffer positions just as Scheme
@@ -54,6 +49,9 @@ does for strings, vectors, and lists. We can do this because Emacs
 Lisp code does not require hard-coded buffer positions. `(point-min)`,
 `(point-max)`, `(point-at-bol)`, `(point-at-eol)`, and various search
 functions are used to obtain buffer positions instead.
+
+Emacs buffers' column numbers are 0-based at the Emacs Lisp API level.
+However, line numbers are 1-based.
 
 ## Macros, parameters, procedures that take thunks
 
@@ -83,6 +81,11 @@ This SRFI uses optional arguments wherever Emacs Lisp does. The Scheme
 value `#f` is the moral equivalent of the Emacs Lisp value `nil`, so
 this SRFI treats an `#f` value passed to an optional argument the same
 way as Emacs Lisp treats a `nil` value passed.
+
+Wherever this SRFI gives two or more optional arguments like `[start
+end]`, it means that all of them are optional individually. Thus
+supplying both _start_ and _end_, supplying only _start_, and
+suppyling neither, are all valid combinations.
 
 ## Narrowing and marking
 
@@ -159,6 +162,7 @@ Emacs, we don't deal with the concepts of window and frame.
 * kill ring, killing and yanking
 * buffer window position
 * buffer visiting file
+* syntax tables and syntax procedures
 
 The `current-column` procedure is not provided by this SRFI since it
 returns the display position.
@@ -330,6 +334,10 @@ ARG, convert for the entire buffer.
 Take the region of the current buffer bounded by [_start_, _end_[ and
 convert all ASCII horizontal tab characters in it to the equivalent
 number of spaces, respecting the current value of _tab-width_.
+
+(delete-trailing-whitespace [start end])
+
+
 
 ## Saving buffer settings
 
