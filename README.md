@@ -41,6 +41,20 @@ functions do not accept a buffer name; a buffer object must be given.
 This implies that `get-buffer`, `get-buffer-create`,
 `generate-new-buffer` do not exist here.
 
+## Zero-based vs one-based indexing
+
+Emacs buffer positiong indexing is 1-based, not 0-based. This is
+inconsistent with string, vector, and list indexing, which is 0-based
+in Emacs Lisp just like in Scheme and other Lisp dialects. Emacs
+buffers' column numbers are also 0-based at the Emacs Lisp API level.
+
+For consistency with the rest of Scheme, this SRFI deviated from Emacs
+indexing and uses 0-based indexes for buffer positions just as Scheme
+does for strings, vectors, and lists. We can do this because Emacs
+Lisp code does not require hard-coded buffer positions. `(point-min)`,
+`(point-max)`, `(point-at-bol)`, `(point-at-eol)`, and various search
+functions are used to obtain buffer positions instead.
+
 ## Macros, parameters, procedures that take thunks
 
 Emacs Lisp makes heavy use of macros, perhaps owing to the fact that
@@ -241,22 +255,19 @@ Do not use.
 
 ## Buffer positions
 
-_NOTE:_ For historical reasons, buffer indexing is 1-based, not
-zero-based.
-
 (buffer-size [buffer]) -> integer
 
 Return the number of characters in the current buffer.
 
 (point) -> integer
 
-Return value of point, as an 1-based integer.
+Return value of point, as a 0-based integer.
 
 (point-min) -> integer
 
 Returns the minimum permissible value of point in the current buffer.
 
-Since this SRFI does not support narrowing, always returns 1.
+Since this SRFI does not support narrowing, always returns 0.
 
 (point-max) -> integer
 
