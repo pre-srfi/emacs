@@ -152,6 +152,14 @@ returns the display position.
 The `forward-line` procedure is not provided. It can be simulated
 using `goto-char` and `point-at-eol`.
 
+The `delete-blank-lines` procedure is not provided because it has
+complicated context-sensitive behavior better suited toward
+interactive use than proramming.
+
+The `delete-duplicate-lines` procedure is not provided because it has
+complicated behavior: by default, it searches duplicate lines an
+arbitrary distance apart, not only adjacent duplicates.
+
 ## Undo feature
 
 GNU Emacs supports an unlimited _undo_ list, and with a third-party
@@ -261,18 +269,54 @@ Since this SRFI does not support narrowing, always returns `(1+
 
 ## Lines and columns
 
-(line-number-at-pos [pos])
+(line-number-at-pos [_pos_]) -> _integer_
 
 Return buffer line number at position _pos_.
 If _pos_ is `#f` or not supplied, use current buffer location.
 
-(point-at-bol) -> integer
+(point-at-bol) -> _integer_
 
-(point-at-eol) -> integer
+(point-at-eol) -> _integer_
+
+(sort-fold-case [_boolean_]) -> _boolean_ [parameter]
+
+(sort-lines _reverse?_ _start_ _end_)
+
+Sort lines in region.
+
+If _sort-fold-case_ is `#f` lines are compared as if by `string<?` and
+`string=?`.
+
+If _sort-fold-case_ is `#t` lines are compared as if by `string-ci<?`
+and `string-ci=?`.
+
+If _reverse?_ if `#t` swap the sense of the comparison.
+
+Use a stable sort in all cases.
 
 ## Whitespace
 
-tabify
+(tab-width [_integer_]) -> _integer_ [parameter]
+
+Maximum width of a tab in columns.
+
+An ASCII horizontal tab character causes the column number to increase
+first by 1 and then until it is a multiple of the tab width.
+
+It is an error unless _integer_ is a **positive** exact integer.
+
+(tabify _start_ _end_)
+
+Convert multiple spaces in region to tabs when possible. A group of
+spaces is partially replaced by tabs when this can be done without
+changing the column they end at. If called interactively with prefix
+ARG, convert for the entire buffer.
+
+(untabify _start_ _end_)
+
+Take the region of the current buffer bounded by [_start_, _end_[ and
+convert all ASCII horizontal tab characters in it to the equivalent
+number of spaces, respecting the current value of _tab-width_.
 
 ## Saving buffer settings
 
@@ -371,15 +415,19 @@ the match data.
 
 ## Regular expression search
 
-(re-search-forward regexp [bound no-error? count]) -> integer
+(re-search-forward _regexp_ [_bound_ _no-error?_ _count_]) -> _integer_
 
-(re-search-backward regexp [bound no-error? count]) -> integer
+(re-search-backward _regexp_ [_bound_ _no-error?_ _count_]) -> _integer_
 
-(looking-at regexp) -> boolean
+(looking-at _regexp_) -> _boolean_
 
-(regexp-quote string) -> string
+(regexp-quote _string_) -> _string_
+
+(regexp-opt _string-list_ _paren_) -> _string_
 
 # Implementation
+
+Implementation using Gauche's `text.gap-buffer` library is attached.
 
 # Acknowledgements
 
