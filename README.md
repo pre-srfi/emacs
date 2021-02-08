@@ -305,8 +305,10 @@ Since this SRFI does not support narrowing, always returns `(1+
 Return buffer line number at position _pos_.
 If _pos_ is `#f` or not supplied, use current buffer location.
 
+(line-beginning-position) -> _integer_ +
 (point-at-bol) -> _integer_
 
+(line-end-position) -> _integer_ +
 (point-at-eol) -> _integer_
 
 (sort-fold-case [_boolean_]) -> _boolean_ [parameter]
@@ -351,7 +353,17 @@ number of spaces, respecting the current value of _tab-width_.
 
 (delete-trailing-whitespace [start end])
 
+## Buffer position
 
+(bob?)
+
+Return `#t` if point in the current buffer is at the very beginning,
+`#f` otherwise.
+
+(eob?)
+
+Return `#t` if point in the current buffer is at the very end (i.e.
+one beyond the last character), `#f` otherwise.
 
 ## Saving buffer settings
 
