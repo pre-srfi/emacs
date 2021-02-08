@@ -125,12 +125,12 @@ Omitted marking procedures:
 ## Regular expressions
 
 For historical reasons, GNU Emacs uses an idiosyncratic regular
-expression syntax that is not found in any other software. The syntax
-is mostly the same as the common Perl-compatible regular expressions,
-but has arbitrary discrepancies in backslash quoting: for example, an
-unquoted `(` matches a literal opening parenthesis, whereas a quoted
-`\(` begins a match group; this convention is the opposite of the
-usual Perl-compatible syntax.
+expression syntax adapted from early Unix tools. The syntax is mostly
+the same as the common Perl-compatible regular expressions, but has
+arbitrary discrepancies in backslash quoting: for example, an unquoted
+`(` matches a literal opening parenthesis, whereas a quoted `\(`
+begins a match group; this convention is the opposite of the usual
+Perl-compatible syntax.
 
 This SRFI uses the syntax from SRFI 115 (_Scheme Regular Expressions_)
 instead of the idiosyncratic Emacs Lisp syntax.
